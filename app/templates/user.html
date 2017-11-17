@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Tripweb-我的资料{{ user.username }}{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    {% if current_user.role_id == 4  %}
+        <h2>您好，旅行社：{{ user.company }}管理员</h2>
+    {% elif current_user.role_id == 2 %}
+        <h2>您好，景区管理员</h2>
+    {% elif current_user.role_id == 3 %}
+        <h2>您好，拥有最高权限的网站开发者</h2>
+    {% else %}
+        <h2>您好，游客：{{ user.username }}</h2>
+    {% endif %}
+    <p>邮箱：{{ user.email }}</p>
+    <p>真实姓名：{{ user.name }}</p>
+    <p>地址：{{ user.location }}</p>
+    {% if current_user.role_id == 1 %}
+        <p>积分：{{ user.score }}</p>
+    {% endif %}
+    <p>联系电话：{{ user.phone }}</p>
+    <p>自我介绍：{{ user.about_me }}</p>
+    <p>注册时间： {{ moment(user.member_since).format('L') }}.</p>
+    <p>最后访问时间： {{ moment(user.last_seen).fromNow() }}.</p>
+    {% if current_user.role_id == 1 %}
+        <p>我收藏的景点：</p>
+            {% for s in scenic1 %}
+                <p><a href="{{ url_for('.scenic_user',s=s) }}">{{ s }}</a></p>
+            {% endfor %}
+        <p>
+
+        <p>我预约的线路：</p>
+            {% for r in route1 %}
+                <p><a href="{{ url_for('.route_user',r=r) }}">{{ r }}</a></p>
+            {% endfor %}
+    {% endif %}
+
+    {% if current_user.role_id == 4  %}
+        {% for r in routes %}
+        <pre>本公司线路：[{{ r.item }}] 的预订情况<br>目前共有 [{{ r.current_num }}] 人预约。名单如下：<br>{{ r.order_data }}</pre>
+        {% endfor %}
+    {% endif %}
+
+    {% if current_user.role_id == 2  %}
+        {% for s in scenics %}
+        <pre>景点名称：[{{ s.item }}] 的游览情况：<br>{{ s.order_data }}</pre>
+        {% endfor %}
+    {% endif %}
+
+    <p>
+        {% if user == current_user %}
+            <a class="btn btn-default" href="{{ url_for('.edit_profile') }}">编辑资料</a>
+        {% endif %}
+        {% if current_user.role_id == 2 %}
+            <a class="btn btn-default" href="{{ url_for('.scenic_printf') }}">打印景区游览情况报表</a>
+        {% endif %}
+        {% if current_user.role_id == 4 %}
+            <a class="btn btn-default" href="{{ url_for('.company_route_print',company=current_user.company) }}">打印本公司线路预约情况报表</a>
+        {% endif %}
+        {% if current_user.is_administrator() %}
+            <a class="btn btn-danger" href="{{ url_for('.user_admin') }}">管理员操作-->用户管理</a>
+        {% endif %}
+    </p>
+</div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Tripweb-线路{{ current_user.username }}{% endblock %}
+
+{% block page_content %}
+    <div class="page-header">
+        {% if current_user.role_id == 4 %}
+            <a class="btn btn-danger" href="{{ url_for('.change_route',user=current_user.username) }}">管理员操作->更新线路</a>
+        {% endif %}
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+        {% for route in routes %}
+            <div class="col-md-3">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <h3>{{ route.item }}</h3>
+                        <p>线路介绍：{{ route.intro }}</p>
+                        <p>出发时间：{{ route.gotime }}</p>
+                        <p>返回时间：{{ route.backtime }}</p>
+                        <p>主要景点：{{ route.scenic }}</p>
+                        <p>饮食条件：{{ route.eat }}</p>
+                        <p>住宿条件：{{ route.sleep }}</p>
+                        <p>每团人数上限：{{ route.upper_num }}</p>
+                        <p>最低开团人数：{{ route.lower_num }}</p>
+                        <p>目前预约人数：{{ route.current_num }}</p>
+                        <p>价格：{{ route.price }}/人</p>
+                        <p>联系电话：{{ route.phone }}</p>
+                        <p>公司名称：{{ route.company }}</p>
+                        {% if current_user.role_id == 4 %}
+                            <a class="btn btn-danger" href="{{ url_for('.del_route',item=route.item) }}">管理员操作->删除路线</a>
+                        {% endif %}
+                        <div class="dropdown">
+                            <button class="btn btn-primary btn-lg btn-block" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                预约<span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a href="{{ url_for('.order_route', order_num = 1, item=route.item, user=current_user.username,phone=current_user.phone) }}">1人</a></li>
+                                <li><a href="{{ url_for('.order_route', order_num = 2, item=route.item, user=current_user.username,phone=current_user.phone) }}">2人</a></li>
+                                <li><a href="{{ url_for('.order_route', order_num = 3, item=route.item, user=current_user.username,phone=current_user.phone) }}">3人</a></li>
+                                <li><a href="{{ url_for('.order_route', order_num = 4, item=route.item, user=current_user.username,phone=current_user.phone) }}">4人</a></li>
+                                <li><a href="{{ url_for('.order_route', order_num = 5, item=route.item, user=current_user.username,phone=current_user.phone) }}">5人</a></li>
+                            </ul>
+                        </div>
+                        <a class="btn btn-primary" href="{{ url_for('.route_print',item=route.item) }}">打印路线信息</a>
+
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+
+
+
+
+
+

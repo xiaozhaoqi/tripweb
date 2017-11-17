@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Tripweb-景点{{ current_user.username }}{% endblock %}
+
+{% block head %}
+{{ super() }}
+    <script src="../static/javascript/learn_js.js"></script>
+{% endblock %}
+
+{% block page_content %}
+    <div class="page-header">
+        {% if current_user.role_id == 2 %}
+            <a class="btn btn-danger" href="{{ url_for('.change_scenic') }}">管理员操作->更新景点</a>
+        {% endif %}
+            <div class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    排序方式
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><a href="{{ url_for('.scenic_price_uptodown') }}">价格由高到低</a></li>
+                    <li><a href="{{ url_for('.scenic_price_downtoup') }}">价格由低到高</a></li>
+                    <li><a href="{{ url_for('.scenic_evaluate_uptodown') }}">评价由高到低</a></li>
+                    <li><a href="{{ url_for('.scenic_evaluate_downtoup') }}">评价由低到高</a></li>
+                    <li><a href="{{ url_for('.scenic_popular_uptodown') }}">人气由高到底</a></li>
+                    <li><a href="{{ url_for('.scenic_popular_downtoup') }}">人气由低到高</a></li>
+                </ul>
+            </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+        {% for sce in scenics %}
+            <div class="col-md-3">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <h3>{{ sce.item }}</h3>
+                        <p>景点介绍：{{ sce.intro }}</p>
+                        <p>开放时间：{{ sce.opentime }}</p>
+                        <p>地址：{{ sce.position }}</p>
+                        <p>门票价格：{{ sce.price }}</p>
+                        <p class="eva">游客评价：{{ sce.evaluate }} </p>
+                        <p>游客投诉量：{{ sce.complain }}</p>
+                        <p>累计参观人数：{{ sce.visit_num }}</p>
+                        <p>
+                            <p>请您给我们的景点评分</p>
+                            <div class="btn-group" role="group" aria-label="...">
+                                <a  href="{{ url_for('.eva_scenic',eva=1,item=sce.item) }}"><button type="button" id="eva1" class="btn btn-default">1</button></a>
+                                <a  href="{{ url_for('.eva_scenic',eva=2,item=sce.item) }}"><button type="button" id="eva2" class="btn btn-default">2</button></a>
+                                <a  href="{{ url_for('.eva_scenic',eva=3,item=sce.item) }}"><button type="button" id="eva3" class="btn btn-default">3</button></a>
+                                <a  href="{{ url_for('.eva_scenic',eva=4,item=sce.item) }}"><button type="button" id="eva4" class="btn btn-default">4</button></a>
+                                <a  href="{{ url_for('.eva_scenic',eva=5,item=sce.item) }}"><button type="button" id="eva5" class="btn btn-default">5</button></a>
+                            </div>
+                        </p>
+                        <a href="{{ url_for('.complain_scenic',item=sce.item) }}"><button type="button" class="btn btn-primary">投诉景区</button></a>
+                        <a href="{{ url_for('.focus_scenic',item=sce.item) }}"><button type="button" class="btn btn-primary">收藏景区</button></a>
+                        {% if current_user.role_id == 2 %}
+                            <a class="btn btn-danger" href="{{ url_for('.del_scenic',item=sce.item) }}">管理员操作->删除景点</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+
+

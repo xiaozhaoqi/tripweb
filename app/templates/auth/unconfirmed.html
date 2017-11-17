@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Tripweb - 验证账户{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>
+        您好, {{ current_user.username }}!
+    </h1>
+    <h3>我们需要确认您使用了真实有效的邮箱</h3>
+    <p>
+        在您访问本站资源之前，需要验证您的邮箱
+        打开您的邮箱，并点击我们发送给您的验证链接（请确认发件人为本站管理员）
+    </p>
+    <p>
+        没收到？
+        <a href="{{ url_for('auth.resend_confirmation') }}">点此重发</a>
+    </p>
+</div>
+{% endblock %}

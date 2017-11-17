@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Tripweb - 用户管理{% endblock %}
+
+{% block page_content %}
+    <div class="page-header">
+        <h1>用户列表</h1>
+    </div>
+    {% if current_user.is_administrator() %}
+        {% for u in users %}
+            <pre>
+                用户名：{{ u.username }}
+                邮箱：{{ u.email }}
+                个人介绍：{{ u.about_me }}
+                注册时间：{{ u.member_since }}
+                最后登录时间：{{ u.last_seen }}
+                身份：{{ u.role_id }}
+                <a class="btn btn-danger" href="{{ url_for('.del_user',email=u.email) }}">删除用户数据</a>
+            </pre>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

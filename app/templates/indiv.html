@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Tripweb-预约{{ current_user.username}}{% endblock %}
+
+{% block page_content %}
+    <div class="jumbotron">
+        <div class="container">
+            <h3>为您定制个性化的旅行方案</h3>
+            <div class="col-md-4">
+                {{ wtf.quick_form(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+</body>
+
+
+
+
+
+
+
+
+
+

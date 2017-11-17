@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+
+{% block page_content %}
+    <a id="t"><p></p></a>
+    <div class="jumbotron">
+        <div class="container">
+            <div id="slide-example" class="carousel slide">
+                <!-- 幻灯页面 -->
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img id="pic1" class="back" src="./static/2.jpeg" alt="...">
+                        <div class="carousel-caption">
+                            晴雪·故宫
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img id="pic2" class="back" src="./static/1.jpeg" alt="...">
+                        <div class="carousel-caption">
+                            十七孔桥·颐和园
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 幻灯切换控制 -->
+                <a class="left carousel-control" href="#slide-example" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                    <span class="sr-only">上一个</span>
+                </a>
+                <a class="right carousel-control" href="#slide-example" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                    <span class="sr-only">下一个</span>
+                </a>
+
+                <!-- 圆点导航控制 -->
+                <ol class="carousel-indicators">
+                    <li data-target="#slide-example" data-slide-to="0" class="active"></li>
+                    <li data-target="#slide-example" data-slide-to="1"></li>
+                </ol>
+            </div>
+            <a href="{{ url_for('.indiv') }}"><button  type="button" class="btn btn-primary btn-lg btn-block">定制您的旅程</button></a>
+            {% if current_user.role_id == 2  %}
+                <a href="{{ url_for('.scenic') }}"><button type="button" class="btn btn-primary btn-lg btn-block">景区管理员快速入口</button></a>
+            {% endif %}
+            {% if current_user.role_id == 4  %}
+                <a href="{{ url_for('.route') }}"><button type="button" class="btn btn-primary btn-lg btn-block">旅行社管理员快速入口</button></a>
+            {% endif %}
+            {% if current_user.role_id == 3  %}
+                <a href="{{ url_for('.user',username=current_user.username) }}"><button type="button" class="btn btn-primary btn-lg btn-block">欢迎使用开发者帐号</button></a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
