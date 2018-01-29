@@ -7,6 +7,4 @@
 
 前端使用Flask框架提供的JinJa2模板引擎，结合Bootstrap进行前端开发。支持响应式。
 
-本项目已备案并在阿里云ECS上线，域名为www.tripweb.top （目前已失效）
-
 程序主入口为tripweb.py，项目运行所需的包及版本号在requirements.txt中注明。
